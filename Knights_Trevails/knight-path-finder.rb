@@ -57,6 +57,17 @@ class KnightPathFinder
     @move_tree.bfs(end_pos)
   end
 
+  def trace_path_back(node)
+    path = []
+
+    until node.parent.nil?
+      path << node.value
+      node = node.parent
+    end
+    path << node.value
+    path.reverse
+  end
+
   attr_reader :move_tree
 
 end
@@ -64,4 +75,5 @@ end
 knight = KnightPathFinder.new([0,0])
 # knight.new_move_positions([0,0])
 knight.build_move_tree
-p knight.move_tree
+node = knight.find_path([6, 2])
+p knight.trace_path_back(node)
