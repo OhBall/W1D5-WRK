@@ -32,11 +32,11 @@ class KnightPathFinder
     moves << [x-2,y+1]
     moves << [x+2,y-1]
     moves << [x+2,y+1]
-    rest_four = moves.map do |move|
-      x_flip, y_flip = move[1], move[0]
-      [x_flip, y_flip]
-    end
-    moves = moves + rest_four
+    moves << [x+1,y+2]
+    moves << [x+1,y-2]
+    moves << [x-1,y+2]
+    moves << [x-1,y-2]
+
     moves.select { |move| valid_pos?(move) }
   end
 
@@ -47,11 +47,14 @@ class KnightPathFinder
   end
 
   def new_move_positions(pos)
-    # debugger
     moves = valid_moves(pos)
     moves.reject! { |move| @visited.include?(move)}
     @visited += moves unless moves.nil?
     moves
+  end
+
+  def find_path(end_pos)
+    @move_tree.bfs(end_pos)
   end
 
   attr_reader :move_tree
@@ -59,6 +62,6 @@ class KnightPathFinder
 end
 
 knight = KnightPathFinder.new([0,0])
-#knight.new_move_positions([0,0])
+# knight.new_move_positions([0,0])
 knight.build_move_tree
 p knight.move_tree
